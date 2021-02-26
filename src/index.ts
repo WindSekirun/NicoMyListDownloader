@@ -44,11 +44,16 @@ async function parseMyListAndDownload(mylistId: string, email: string, password:
   const feed = await parser.parseString(fileContent);
 
   const videos: VideoObject[] = (feed.items ?? [])
-    .reverse()
+    .sort((a, b) => {
+      const aDate = Date.parse(a.pubDate || "")
+      const bDate = Date.parse(b.pubDate || "")
+      return aDate - bDate;
+    })
     .map((item, index: number) => new VideoObject(index, item.title, item.link))
     .sort((a, b) => (a.index < b.index ? -1 : a.index > b.index ? 1 : 0));
 
   console.log("feed fetched");
+  console.log(videos)
 
   if (!fs.existsSync("./videos")) {
     fs.mkdirSync("videos");
