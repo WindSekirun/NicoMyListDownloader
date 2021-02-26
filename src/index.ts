@@ -23,7 +23,7 @@ async function download(client: Nicovideo, video: VideoObject, targetPath: strin
   const pad = `${video.index + 1}`.padStart(4, "0");
   const fileName = filenamify(`${pad}-` + data.video.title) + "." + data.video.movieType;
   const filePath = resolve(join(targetPath, fileName));
-  await client.httpExport(data.video.smileInfo.url, filePath)
+  await client.httpExport(data.video.smileInfo.url, filePath);
   return filePath;
 }
 
@@ -38,7 +38,7 @@ async function parseMyListAndDownload(mylistId: string, email: string, password:
   let parser = new Parser();
 
   const rssUrl = `https://www.nicovideo.jp/mylist/${mylistId}?rss=2.0`;
-  const response = await axios.get(rssUrl)
+  const response = await axios.get(rssUrl);
   fs.writeFileSync(`${mylistId}.rss`, response.data, { encoding: null });
   const fileContent = fs.readFileSync(`${mylistId}.rss`, "utf8");
   const feed = await parser.parseString(fileContent);
@@ -49,6 +49,10 @@ async function parseMyListAndDownload(mylistId: string, email: string, password:
     .sort((a, b) => (a.index < b.index ? -1 : a.index > b.index ? 1 : 0));
 
   console.log("feed fetched");
+
+  if (!fs.existsSync("./videos")) {
+    fs.mkdirSync("videos");
+  }
 
   for (const video of videos) {
     const contents = await download(client, video, "./videos");
