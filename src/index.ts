@@ -11,23 +11,36 @@ class VideoObject {
   id: string = "";
   index: number = 0;
 
-  constructor(index: number, title: string | undefined, link: string | undefined) {
+  constructor(
+    index: number,
+    title: string | undefined,
+    link: string | undefined
+  ) {
     this.index = index;
     this.title = title ?? "";
     this.id = link?.replace("https://www.nicovideo.jp/watch/", "") ?? "";
   }
 }
 
-async function download(client: Nicovideo, video: VideoObject, targetPath: string): Promise<string> {
+async function download(
+  client: Nicovideo,
+  video: VideoObject,
+  targetPath: string
+): Promise<string> {
   const data = await client.watch(video.id);
   const pad = `${video.index + 1}`.padStart(4, "0");
-  const fileName = filenamify(`${pad}-` + data.video.title) + "." + data.video.movieType;
+  const fileName =
+    filenamify(`${pad}-` + data.video.title) + "." + data.video.movieType;
   const filePath = resolve(join(targetPath, fileName));
   await client.httpExport(data.video.smileInfo.url, filePath);
   return filePath;
 }
 
-async function parseMyListAndDownload(mylistId: string, email: string, password: string) {
+async function parseMyListAndDownload(
+  mylistId: string,
+  email: string,
+  password: string
+) {
   if (!email || !password || !mylistId) {
     console.log("Email or Password or MyListId are missing!");
     return;
@@ -37,23 +50,26 @@ async function parseMyListAndDownload(mylistId: string, email: string, password:
   const client = new Nicovideo(session);
   let parser = new Parser();
 
-  const rssUrl = `https://www.nicovideo.jp/mylist/${mylistId}?rss=2.0`;
-  const response = await axios.get(rssUrl);
-  fs.writeFileSync(`${mylistId}.rss`, response.data, { encoding: null });
+  if (!fs.existsSync(`${mylistId}.rss`)) {
+    const rssUrl = `https://www.nicovideo.jp/mylist/${mylistId}?rss=2.0`;
+    const response = await axios.get(rssUrl);
+    fs.writeFileSync(`${mylistId}.rss`, response.data, { encoding: null });
+  }
+
   const fileContent = fs.readFileSync(`${mylistId}.rss`, "utf8");
   const feed = await parser.parseString(fileContent);
 
   const videos: VideoObject[] = (feed.items ?? [])
     .sort((a, b) => {
-      const aDate = Date.parse(a.pubDate || "")
-      const bDate = Date.parse(b.pubDate || "")
+      const aDate = Date.parse(a.pubDate || "");
+      const bDate = Date.parse(b.pubDate || "");
       return aDate - bDate;
     })
     .map((item, index: number) => new VideoObject(index, item.title, item.link))
     .sort((a, b) => (a.index < b.index ? -1 : a.index > b.index ? 1 : 0));
 
   console.log("feed fetched");
-  console.log(videos)
+  console.log(videos);
 
   if (!fs.existsSync("./videos")) {
     fs.mkdirSync("videos");
@@ -65,4 +81,8 @@ async function parseMyListAndDownload(mylistId: string, email: string, password:
   }
 }
 
-parseMyListAndDownload(process.env.PLAYLIST || "", process.env.USERNAME || "", process.env.PASSWORD || "");
+parseMyListAndDownload(
+  process.env.PLAYLIST || "",
+  process.env.USERNAME || "",
+  process.env.PASSWORD || ""
+);
