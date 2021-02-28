@@ -82,7 +82,7 @@ async function parseMyListAndDownload(
 }
 
 parseMyListAndDownload(
-  process.env.PLAYLIST || "",
-  process.env.USERNAME || "",
-  process.env.PASSWORD || ""
+  process.env.NICONICO_PLAYLIST || "",
+  process.env.NICONICO_USERNAME || "",
+  process.env.NICONICO_PASSWORD || ""
 );
