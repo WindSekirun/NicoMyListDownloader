@@ -118,3 +118,5 @@ dist
 
 *.rss
 videos
+
+.DS_Store

@@ -2,24 +2,42 @@
 
 Simple scripts to download playlist from niconico (https://nicovideo.jp)
 
+## Features
+
+* Download public playlist/series from niconico
+  * For series, please refer https://nplll.com/2019/07/rss_for_niconico_video_series/ for Details.
+* auto-increment index (one-based index) in filename for indexing directory
+
 ## Usages
 
+Make sure installed `node` with any version.
+
 1. Installing dependencies `npm install`
-2. Change `.env.example` to `.env` and add proper NICONICO_USERNAME, NICONICO_PASSWORD and NICONICO_PLAYLIST to download;
-    * playlist id can be extract by url
-    * if playlist url is https://www.nicovideo.jp/my/mylist/00000000, just enter 00000000 into NICONICO_PLAYLIST
-3. `npm run start`
+2. Change `.env.example` to `.env`
+3. Give some value into `.env` file
+
+```
+NICONICO_USERNAME=YOUR NICONICO EMAIL or id
+NICONICO_PASSWORD=YOUR NICONICO PASSWORD
+NICONICO_PLAYLIST_ID=Desired playlist id
+NICONICO_SERIES_ID=Desired series id 
+```
+
+Running by `npm run start-mylist` for mylist, `npm run start-series` for series.
 
 ## Limitation
 
 ### Private playlist
+
 Currently, NicoMyListDownloader can't handle `private playlist`. However, there is a way to make it work.
-1. Enter https://www.nicovideo.jp/mylist/{NICONICO_PLAYLIST}?rss=2.0 on browser (relace {NICONICO_PLAYLIST} to desired playlist id)
-2. Saved on project root, with {NICONICO_PLAYLIST}.rss
-3. `npm run start`
+
+1. Enter `https://www.nicovideo.jp/mylist/{PLAYLIST}?rss=2.0` on browser (relace {PLAYLIST} to desired playlist id)
+2. Saved on project root, with {PLAYLIST}.rss
+3. `npm run start-mylist` or  `npm run start-series`
 
 ### Rate Limit
-Currently, Niconico has rate limit. 
+
+Currently, Niconico has rate limit. (although you have premium subscription :(
 
 ```
 ページにアクセスできません
@@ -31,11 +49,11 @@ Currently, Niconico has rate limit.
 ```
 
 If you want to download large playlist, there is a way to make it work.
-1. `npm run start`
-2. If scripts raise Exception, enter `{NICONICO_PLAYLIST}.rss` file
-3. Remove <item> element of already download
-4. Wait some minutes (about 10 minutes)
-5. Repeat 1 ~ 4 steps
+
+1. `npm run start-mylist` or  `npm run start-series`
+2. NicoMyListDownloader will skip already download file. If file has corrupted, just remove that file and re-running scripts
+3. Repeat 1 step while all file were download.
 
 ## License
+
 MIT License
