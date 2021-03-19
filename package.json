@@ -6,16 +6,17 @@
   "scripts": {
     "start-mylist": "ts-node src/index.ts mylist",
     "start-series": "ts-node src/index.ts series",
+    "start-single": "ts-node src/index.ts single",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@types/async": "^3.0.8",
     "axios": "^0.21.1",
+    "axios-cookiejar-support": "^1.0.1",
     "dotenv": "^8.2.0",
-    "filenamify": "^4.1.0",
     "moment": "^2.24.0",
-    "niconico": "^1.1.2",
     "rss-parser": "^3.7.6",
+    "tough-cookie": "^2.5.0",
     "ts-node": "^8.7.0",
     "typescript": "^3.8.3"
   },

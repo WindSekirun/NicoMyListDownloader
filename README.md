@@ -10,17 +10,18 @@ Simple scripts to download playlist from niconico (https://nicovideo.jp)
 
 ## Usages
 
-Make sure installed `node` with any version.
+#### From 2021. 03. 20~
+niconico changes their video format, so NicoMyListDownloader can't handle properly with `smileinfo`. You have to run `setup.sh` once before downloading.
 
-1. Installing dependencies `npm install`
-2. Change `.env.example` to `.env`
-3. Give some value into `.env` file
+Make sure installed `node`, `python3`
+1. Setup dependencies by `./setup.sh`
+2. Give some value into `.env` file.
 
 ```
 NICONICO_USERNAME=YOUR NICONICO EMAIL or id
 NICONICO_PASSWORD=YOUR NICONICO PASSWORD
 NICONICO_PLAYLIST_ID=Desired playlist id
-NICONICO_SERIES_ID=Desired series id 
+NICONICO_SERIES_ID=Desired series id
 ```
 
 Running by `npm run start-mylist` for mylist, `npm run start-series` for series.
