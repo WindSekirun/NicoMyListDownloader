@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-mylist": "ts-node src/index.ts mylist",
-    "start-series": "ts-node src/index.ts series",
-    "start-single": "ts-node src/index.ts single",
+    "mylist": "ts-node src/index.ts mylist",
+    "series": "ts-node src/index.ts series",
+    "single": "ts-node src/index.ts single",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

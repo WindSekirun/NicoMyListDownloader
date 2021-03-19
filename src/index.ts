@@ -70,18 +70,18 @@ async function handleRss(id: string) {
 }
 
 async function handleMyList() {
-  const id = process.env.NICONICO_PLAYLIST_ID || "";
+  const id = process.argv[3];
   if (!fs.existsSync(`${id}.rss`)) {
-    saveRss(id, `https://www.nicovideo.jp/mylist/${id}?rss=2.0`);
+    await saveRss(id, `https://www.nicovideo.jp/mylist/${id}?rss=2.0`);
   }
 
   handleRss(id);
 }
 
 async function handleSeries() {
-  const id = process.env.NICONICO_SERIES_ID || "";
+  const id = process.argv[3];
   if (!fs.existsSync(`${id}.rss`)) {
-    saveRss(id, `https://rss.1ni.co/series/${id}`);
+    await saveRss(id, `https://rss.1ni.co/series/${id}`);
   }
 
   handleRss(id);

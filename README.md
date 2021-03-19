@@ -20,11 +20,12 @@ Make sure installed `node`, `python3`
 ```
 NICONICO_USERNAME=YOUR NICONICO EMAIL or id
 NICONICO_PASSWORD=YOUR NICONICO PASSWORD
-NICONICO_PLAYLIST_ID=Desired playlist id
-NICONICO_SERIES_ID=Desired series id
 ```
 
-Running by `npm run start-mylist` for mylist, `npm run start-series` for series.
+Running by...
+* MyList: `npm run mylist ${PLAYLIST_ID}`
+* Series: `npm run series ${PLAYLIST_ID}`
+* Single: `npm run single ${VIDEO_ID}`
 
 ## Limitation
 
@@ -34,7 +35,7 @@ Currently, NicoMyListDownloader can't handle `private playlist`. However, there 
 
 1. Enter `https://www.nicovideo.jp/mylist/{PLAYLIST}?rss=2.0` on browser (relace {PLAYLIST} to desired playlist id)
 2. Saved on project root, with {PLAYLIST}.rss
-3. `npm run start-mylist` or  `npm run start-series`
+3. Running script
 
 ### Rate Limit
 
@@ -51,7 +52,7 @@ Currently, Niconico has rate limit. (although you have premium subscription :(
 
 If you want to download large playlist, there is a way to make it work.
 
-1. `npm run start-mylist` or  `npm run start-series`
+1. Running script
 2. NicoMyListDownloader will skip already download file. If file has corrupted, just remove that file and re-running scripts
 3. Repeat 1 step while all file were download.
 

@@ -26,23 +26,21 @@ export function checkEnvironment() {
 
   // check method
   const method = process.argv[2];
-  const series = process.env.NICONICO_SERIES_ID || "";
-  const single = process.argv[3];
-  const mylist = process.env.NICONICO_PLAYLIST_ID || "";
+  const id = process.argv[3];
 
-  if (method == "series" && !series) {
+  if (method == "series" && !id) {
     error("NICONICO_SERIES_ID is missing!");
     return;
   }
 
-  if (method == "single" && !single) {
+  if (method == "single" && !id) {
     error(
       "Usage: npm run start-single {VIDEO ID} ex) npm run start-single sm38452119"
     );
     return;
   }
 
-  if (method == "mylist" && !mylist) {
+  if (method == "mylist" && !id) {
     error("NICONICO_PLAYLIST_ID is missing!");
     return;
   }
@@ -62,7 +60,8 @@ export function makeFolder(id: string) {
   }
 }
 
-export async function saveRss(id: string, url: string) {
+export async function saveRss(id: string, url: string): Promise<boolean> {
   const response = await axios.get(url);
   fs.writeFileSync(`${id}.rss`, response.data, { encoding: null });
+  return true
 }
